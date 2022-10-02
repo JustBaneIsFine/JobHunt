@@ -24,6 +24,8 @@
         // 	"quotes": ["error", "single"],
         // "semi": ["error", "always"]
         "@typescript-eslint/no-var-requires": 0,
-        "@typescript-eslint/no-inferrable-types": 0
+        "@typescript-eslint/no-inferrable-types": 0,
+        "max-len": ["error", { "code": 180 }],
+        "prettier/prettier": ["error", { "semi": true }]
     }
 }
