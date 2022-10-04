@@ -1,35 +1,17 @@
 'use strict';
+var __importDefault =
+    (this && this.__importDefault) ||
+    function (mod) {
+        return mod && mod.__esModule ? mod : { default: mod };
+    };
 Object.defineProperty(exports, '__esModule', { value: true });
 const mongodb_1 = require('mongodb');
+const uri_json_1 = __importDefault(require('./uri.json'));
 async function main() {
-    // eslint-disable-next-line prettier/prettier
-    const uri = 'mongodb+srv://dbAdminJobHunt:SpecialForcesJudoka997Administrator@jobhunt.hax6hew.mongodb.net/?retryWrites=true&w=majority';
-    const client = new mongodb_1.MongoClient(uri);
+    const client = new mongodb_1.MongoClient(uri_json_1.default.data);
     try {
         await client.connect();
         await listDatabases(client);
-        await updateItemByName(client, 'hello', {
-            age: 55,
-            how: 'no fing idea',
-        });
-        // await findItemByName(client, 'hello');
-        // await createMultipleItems(client, [
-        //     {
-        //         name: 'hello',
-        //         age: 5,
-        //         ethnicity: 'white',
-        //     },
-        //     {
-        //         name: 'hello1',
-        //         age: 7,
-        //         ethnicity: 'whiter',
-        //     },
-        //     {
-        //         name: 'hello2',
-        //         age: 8,
-        //         ethnicity: 'whiter2',
-        //     },
-        // ]);
     } catch (error) {
         console.log(error);
     } finally {
@@ -65,7 +47,6 @@ async function findItemByName(client, nameOfItem) {
         .findOne({ name: nameOfItem });
     if (result) {
         console.log(`found item ${nameOfItem}`);
-        //console.log(result);
     } else {
         console.log(`no item with name ${nameOfItem}`);
     }
@@ -82,4 +63,4 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
     console.log(result.modifiedCount, 'have been updated');
     console.log(item, 'AFTER');
 }
-main().catch(console.log);
+//main().catch(console.log);

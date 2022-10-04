@@ -66,5 +66,4 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
     console.log(result.modifiedCount, 'have been updated');
     console.log(item, 'AFTER');
 }
-
 //main().catch(console.log);

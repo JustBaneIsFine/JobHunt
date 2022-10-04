@@ -23,4 +23,17 @@ function App() {
 	);
 }
 
+function sendRequest() {
+	const xhr = new XMLHttpRequest();
+	const url = '/intro';
+	xhr.open('GET', url, true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+
+	xhr.onload = function () {
+		console.log(xhr.responseText);
+	};
+
+	xhr.send('hello');
+}
+sendRequest();
 export default App;
