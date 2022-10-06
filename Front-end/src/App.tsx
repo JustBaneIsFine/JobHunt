@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
 	return (
 		<div className='App'>
 			<header className='App-header'>
-				<img src={logo} className='App-logo' alt='logo' />
+				<img src={'./desktop.jpeg'} className='App-logo' alt='logo' />
 				<p>
 					Edit <code>src/App.tsx</code> and save to reload.
 				</p>
@@ -33,7 +32,7 @@ function sendRequest() {
 		console.log(xhr.responseText);
 	};
 
-	xhr.send('hello');
+	xhr.send('hloi');
 }
 sendRequest();
 export default App;
