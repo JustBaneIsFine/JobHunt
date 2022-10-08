@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import uri from './uri.json';
 
-async function main() {
+export async function main() {
     const client = new MongoClient(uri.data);
 
     try {
@@ -23,34 +23,34 @@ async function listDatabases(client) {
     });
 }
 
-async function createItem(client, newItem) {
+export async function createItem(client, newItem: object, database, coll) {
     const result = await client
-        .db('sample_mflix')
-        .collection('comments')
+        .db(database)
+        .collection(coll)
         .insertOne(newItem);
-    console.log(`result id is: ${result.insertedId}`);
+    return result.insertedId;
 }
 
-async function createMultipleItems(client, newItems) {
+async function createMultipleItems(client, newItems: object) {
     const result = await client
         .db('sample_mflix')
         .collection('comments')
         .insertMany(newItems);
 
-    console.log(`${result.insertedCount} new listings created with ids:`);
-    console.log(result.insertedIds);
+    //console.log(`${result.insertedCount} new listings created with ids:`);
 }
 
-async function findItemByName(client, nameOfItem: string) {
+export async function findItemByName(
+    client,
+    nameOfItem: string,
+    database,
+    coll
+) {
     const result = await client
-        .db('sample_mflix')
-        .collection('comments')
+        .db(database)
+        .collection(coll)
         .findOne({ name: nameOfItem });
-    if (result) {
-        console.log(`found item ${nameOfItem}`);
-    } else {
-        console.log(`no item with name ${nameOfItem}`);
-    }
+
     return result;
 }
 
@@ -60,10 +60,28 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
         .collection('comments')
         .updateOne({ name: nameOfItem }, { $set: updatedItem });
 
-    const item = await findItemByName(client, nameOfItem);
-    console.log(item);
-    console.log(result.matchedCount, 'matched the query stuff');
-    console.log(result.modifiedCount, 'have been updated');
-    console.log(item, 'AFTER');
+    const item = await findItemByName(
+        client,
+        nameOfItem,
+        'sample_mflix',
+        'comments'
+    );
+
+    // console.log(result.matchedCount, 'matched the query stuff');
+    // console.log(result.modifiedCount, 'have been updated');
+}
+
+export async function deleteItemByName(client, nameOfItem, database, coll) {
+    const itemId = await findItemByName(client, nameOfItem, database, coll);
+
+    await client.db(database).collection(coll).deleteOne({ _id: itemId._id });
+    return await findItemByName(client, nameOfItem, database, coll);
+}
+
+export async function findItemById(client, itemId, database, coll) {
+    const item = await client
+        .db(database)
+        .collection(coll)
+        .findOne({ _id: itemId });
 }
 //main().catch(console.log);

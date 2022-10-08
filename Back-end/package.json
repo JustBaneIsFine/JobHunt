@@ -8,10 +8,10 @@
         "format": "prettier --write \"**/*.+(js|ts|json)\"",
         "lint-pretty": "npm run lint && npm run format",
         "lpt": "npm run-s -c lint-pretty tsc-format",
-        "startPure": "node server.js",
+        "startPure": "node out/server.js",
         "fix-start": "npm run lpt && npm run startPure",
         "start": "npm run fix-start",
-        "test": "jest"
+        "test": "jest ./tests"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",

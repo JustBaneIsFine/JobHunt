@@ -9,12 +9,14 @@ exports.testFunc = void 0;
 const express_1 = __importDefault(require('express'));
 const path_1 = __importDefault(require('path'));
 const cookie_parser_1 = __importDefault(require('cookie-parser'));
+const index_1 = __importDefault(require('./routes/index'));
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+app.use('/index', index_1.default);
 app.get('/', (req, res) => {
     res.send('hello world AGAIN!');
 });
