@@ -1,12 +1,23 @@
 import { MongoClient } from 'mongodb';
 import uri from './uri.json';
+const currentDatabase = 'testing';
+const currentCollection = 'testCollection';
 
-export async function main() {
+export async function usernameExists(username): Promise<null | object> {
+    const result = await main(findItemByName, username);
+    return result;
+}
+
+export async function createNewUser(user) {
+    const result = await main(createItem, user);
+    return result;
+}
+
+export async function main(funcToRun, data) {
     const client = new MongoClient(uri.data);
-
     try {
         await client.connect();
-        await listDatabases(client);
+        return await funcToRun(client, data);
     } catch (error) {
         console.log(error);
     } finally {
@@ -23,11 +34,11 @@ async function listDatabases(client) {
     });
 }
 
-export async function createItem(client, newItem: object, database, coll) {
+export async function createItem(client, data) {
     const result = await client
-        .db(database)
-        .collection(coll)
-        .insertOne(newItem);
+        .db(currentDatabase)
+        .collection(currentCollection)
+        .insertOne(data);
     return result.insertedId;
 }
 
@@ -40,16 +51,11 @@ async function createMultipleItems(client, newItems: object) {
     //console.log(`${result.insertedCount} new listings created with ids:`);
 }
 
-export async function findItemByName(
-    client,
-    nameOfItem: string,
-    database,
-    coll
-) {
+export async function findItemByName(client, data: string) {
     const result = await client
-        .db(database)
-        .collection(coll)
-        .findOne({ name: nameOfItem });
+        .db(currentDatabase)
+        .collection(currentCollection)
+        .findOne({ name: data });
 
     return result;
 }
@@ -71,17 +77,21 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
     // console.log(result.modifiedCount, 'have been updated');
 }
 
-export async function deleteItemByName(client, nameOfItem, database, coll) {
-    const itemId = await findItemByName(client, nameOfItem, database, coll);
+export async function deleteItemByName(client, data) {
+    const itemId = await findItemByName(client, data);
 
-    await client.db(database).collection(coll).deleteOne({ _id: itemId._id });
-    return await findItemByName(client, nameOfItem, database, coll);
+    await client
+        .db(currentDatabase)
+        .collection(currentCollection)
+        .deleteOne({ _id: itemId._id });
+    return await findItemByName(client, data);
 }
 
-export async function findItemById(client, itemId, database, coll) {
+export async function findItemById(client, itemId) {
     const item = await client
-        .db(database)
-        .collection(coll)
+        .db(currentDatabase)
+        .collection(currentCollection)
         .findOne({ _id: itemId });
+    return item;
 }
 //main().catch(console.log);
