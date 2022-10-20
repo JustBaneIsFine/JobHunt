@@ -4,6 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import registerRouter from './routes/register';
 
 const app = express();
 const port = 3000;
@@ -14,7 +15,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/index', indexRouter);
-
+app.use('/register', registerRouter);
 app.get('/', (req, res) => {
     res.send('hello world AGAIN!');
 });
