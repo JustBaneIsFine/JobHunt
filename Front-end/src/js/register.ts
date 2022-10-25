@@ -1,5 +1,18 @@
-export function submitRegister(username, password) {
-  //send password to server to be hashed and saved
-  //server does what it does and returns either failed(because name/email exsists already)
-  //or success if it completes everything, and then moves you to the front page (loged in)
+import { validateInput } from './inputValidation';
+import { sendRequest } from './communication';
+
+export async function submitRegister(username, password) {
+  {
+    const errors = { usernameError: '', passwordError: '' };
+    const nameTrimed = username.trim();
+    const passTrimed = password.trim();
+    const inputIsValid = validateInput(nameTrimed, passTrimed, errors);
+    if (inputIsValid) {
+      const data = { username: nameTrimed, password: passTrimed };
+      const result = await sendRequest('/register', 'post', data);
+      return result;
+    } else {
+      return errors;
+    }
+  }
 }
