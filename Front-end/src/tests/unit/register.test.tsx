@@ -1,32 +1,124 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import Register from '../../pages/register';
+import * as validate from '../../js/inputValidation';
+import { server } from '../../mocks/server';
+import { rest } from 'msw';
+
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.restoreAllMocks();
+});
 
 describe('Registration form works', () => {
-  describe('new user, registration succeeds', async () => {
+  describe('password/username too short/long front-check', () => {
+    test('password is too short', async () => {
+      await inputData('usernameIsGood', 'pasBad');
+      expect(screen.getByPlaceholderText('password is too short')).toBeInTheDocument();
+    });
+
+    test('password is too long', async () => {
+      await inputData('usernameIsGood', 'passwordIsWaaaaaaaaaaaaayTooooooooLooooooooong');
+      expect(screen.getByPlaceholderText('password is too long')).toBeInTheDocument();
+    });
+
+    test('username is too short', async () => {
+      await inputData('hi', 'PasswordIsPrettyGood');
+      expect(screen.getByPlaceholderText('username is too short')).toBeInTheDocument();
+    });
+
+    test('username is too long', async () => {
+      await inputData(
+        'Hi,MyNameIsWHO,MyNameIsWhat,MyNameIsChka-ChkaSlimShady',
+        'PasswordIsPrettyGood',
+      );
+      expect(screen.getByPlaceholderText('username is too long')).toBeInTheDocument();
+    });
+  });
+  describe('password/username too short/long back-check', () => {
+    //-------If for some reason someone manages to pass trough the front-end checks
+    //-------And makes it to the back, we want to handle that as well..
+    test('password is too short', async () => {
+      // here we expect the result of the fetch to return an error
+      server.use(
+        rest.post('/register', (req, res, ctx) => {
+          return res(ctx.status(400, 'password is too short'));
+        }),
+      );
+      jest.spyOn(validate, 'validateInput').mockReturnValue(true);
+      await inputData('testUsernameWorks', 'pass');
+      const isThere = await screen.findByPlaceholderText('password is too short');
+      expect(isThere).toBeInTheDocument();
+    });
+    test('username is too short', async () => {
+      server.use(
+        rest.post('/register', (req, res, ctx) => {
+          return res(ctx.status(400, 'username is too short'));
+        }),
+      );
+
+      jest.spyOn(validate, 'validateInput').mockReturnValue(true);
+      await inputData('hi', 'passisGoood');
+      const isThere = await screen.findByPlaceholderText('username is too short');
+      expect(isThere).toBeInTheDocument();
+    });
+    test('password is too long', async () => {
+      server.use(
+        rest.post('/register', (req, res, ctx) => {
+          return res(ctx.status(400, 'password is too long'));
+        }),
+      );
+
+      jest.spyOn(validate, 'validateInput').mockReturnValue(true);
+      await inputData('UsernameGood', 'passwordIsWaaaaaaaaaaaaaaayTooooooooooLooooooooong');
+      const isThere = await screen.findByPlaceholderText('password is too long');
+      expect(isThere).toBeInTheDocument();
+    });
+    test('username is too long', async () => {
+      server.use(
+        rest.post('/register', (req, res, ctx) => {
+          return res(ctx.status(400, 'username is too long'));
+        }),
+      );
+
+      jest.spyOn(validate, 'validateInput').mockReturnValue(true);
+      await inputData('UsernameIsWaaaaaaaaaaaaaaaaaayTooooooooooLooooooooong', 'passIsGoodTho');
+      const isThere = await screen.findByPlaceholderText('username is too long');
+      expect(isThere).toBeInTheDocument();
+    });
+    test('username is taken', async () => {
+      server.use(
+        rest.post('/register', (req, res, ctx) => {
+          return res(ctx.status(400, 'username is taken'));
+        }),
+      );
+
+      await inputData('busyName', 'passCantBeBusyCanIt');
+      const isThere = await screen.findByPlaceholderText('username is taken');
+      expect(isThere).toBeInTheDocument();
+    });
+  });
+
+  describe('new user, registration succeeds', () => {
+    test('server responded with 200 everything works', async () => {
+      await inputData('UsernameIsGood', 'PasswordIsGood');
+      const isThere = await screen.findByPlaceholderText('hello');
+      expect(isThere).toBeInTheDocument();
+    });
     //registration should succeed meaning the username is not used already..
-    test('server responded with 200 everything works', () => {
-      // const o = 5;
-    });
-  });
-
-  describe('username taken and registration fails works', async () => {
-    //username is already taken, registration should fail
-    test('username is taken', () => {
-      // const o = 5;
-    });
-  });
-
-  describe('invalid input test', async () => {
-    //invalid input, registration should fail before even sending to server
-    test('password does not match', () => {
-      // const o = 5;
-    });
-    test('username is too short', () => {
-      // const o = 5;
-    });
-    test('password is too short', () => {
-      // const o = 5;
-    });
   });
 });
+
+async function inputData(name, pass) {
+  user.setup();
+  render(<Register />);
+  const inputName = screen.getByTestId('inputUser');
+  const inputPass = screen.getByTestId('inputPass');
+  const submitButton = screen.getByRole('button', { name: /click here to register/i });
+  await user.click(inputName);
+  await user.keyboard(name);
+  await user.click(inputPass);
+  await user.keyboard(pass);
+  await user.click(submitButton);
+}
