@@ -12,7 +12,7 @@ afterEach(() => {
 });
 
 describe('Registration form works', () => {
-  describe('password/username too short/long front-check', () => {
+  describe('front-end register input check', () => {
     test('password is too short', async () => {
       await inputData('usernameIsGood', 'pasBad');
       expect(screen.getByPlaceholderText('password is too short')).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('Registration form works', () => {
       expect(screen.getByPlaceholderText('username is too long')).toBeInTheDocument();
     });
   });
-  describe('password/username too short/long back-check', () => {
+  describe('back-end register input check', () => {
     //-------If for some reason someone manages to pass trough the front-end checks
     //-------And makes it to the back, we want to handle that as well..
     test('password is too short', async () => {
@@ -117,8 +117,8 @@ async function inputData(name, pass) {
   const inputPass = screen.getByTestId('inputPass');
   const submitButton = screen.getByRole('button', { name: /click here to register/i });
   await user.click(inputName);
-  await user.keyboard(name);
+  await user.paste(name);
   await user.click(inputPass);
-  await user.keyboard(pass);
+  await user.paste(pass);
   await user.click(submitButton);
 }
