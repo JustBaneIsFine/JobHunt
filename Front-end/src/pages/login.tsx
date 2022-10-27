@@ -1,32 +1,84 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { submitLogin } from '../js/login';
-const passwordRef = useRef<HTMLInputElement>(null);
-const usernameRef = useRef<HTMLInputElement>(null);
 
 //what other components are needed in this page
 
 const Login = () => {
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
+
   return (
     <div>
       <h1> This is the login page</h1>
-      <form className='inputDiv' onSubmit={submitCheck}>
-        <label> Enter your username here</label>
-        <input type='text' ref={usernameRef}></input>
-        <label> Enter your password here</label>
-        <input type='password' ref={passwordRef}></input>
-        <input type='submit' id='submitLogin'>
-          Click to login
-        </input>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          submitCheck();
+        }}
+      >
+        <div>
+          <label> Enter your username here</label>
+          <input
+            data-testid='inputUser'
+            type='text'
+            ref={usernameRef}
+            placeholder={errors.usernameError}
+          />
+        </div>
+        <div>
+          <label> Enter your password here</label>
+          <input
+            data-testid='inputPass'
+            type='password'
+            ref={passwordRef}
+            placeholder={errors.passwordError}
+          />
+        </div>
+
+        <input type='submit' value={'click here to login'} />
       </form>
     </div>
   );
-};
 
-function submitCheck() {
-  if (usernameRef.current != null && passwordRef.current != null) {
-    submitLogin(usernameRef.current.value, passwordRef.current.value);
+  async function submitCheck() {
+    if (usernameRef.current != null && passwordRef.current != null) {
+      const result = await submitLogin(usernameRef.current.value, passwordRef.current.value);
+
+      if (Object.keys(result).includes('response')) {
+        usernameRef.current.value = '';
+        passwordRef.current.value = '';
+        //testing
+        setErrors({ usernameError: 'hello', passwordError: '' });
+      } else {
+        usernameRef.current.value = '';
+        passwordRef.current.value = '';
+
+        setErrors({
+          usernameError: returnError(result, 'username'),
+          passwordError: returnError(result, 'password'),
+        });
+      }
+    }
   }
-}
+
+  function returnError(response, type) {
+    if (Object.keys(response).includes(`${type}Error`)) {
+      return response[`${type}Error`];
+    } else if (
+      Object.keys(response).includes('errorCode') &&
+      response['error'].includes(`${type}`)
+    ) {
+      return response['error'];
+    } else {
+      return '';
+    }
+    // We want to check first if we have errors on the front end..
+    // If there are errors, we assign them..
+    // If not, we check the back-end for errors
+    //
+  }
+};
 
 export default Login;
