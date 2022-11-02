@@ -2,14 +2,14 @@ export async function sendRequest(url: string, method: string, data: object) {
   const response = await fetch(url, {
     method: method,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-
-  if (!response.ok) {
-    return { errorCode: response.status, error: response.statusText };
+  const responseData = await response.json();
+  if (responseData.success === true) {
+    return true;
   } else {
-    return { response: response };
+    return { serverError: responseData.error };
   }
 }
