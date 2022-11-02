@@ -5,7 +5,8 @@ import Register from '../../pages/register';
 import * as validate from '../../js/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from '../../pages/home';
 afterEach(() => {
   jest.clearAllMocks();
   jest.restoreAllMocks();
@@ -43,7 +44,7 @@ describe('Registration form works', () => {
       // here we expect the result of the fetch to return an error
       server.use(
         rest.post('/register', (req, res, ctx) => {
-          return res(ctx.status(400, 'password is too short'));
+          return res(ctx.status(200), ctx.json({ success: false, error: 'password is too short' }));
         }),
       );
       jest.spyOn(validate, 'validateInput').mockReturnValue(true);
@@ -54,7 +55,7 @@ describe('Registration form works', () => {
     test('username is too short', async () => {
       server.use(
         rest.post('/register', (req, res, ctx) => {
-          return res(ctx.status(400, 'username is too short'));
+          return res(ctx.status(200), ctx.json({ success: false, error: 'username is too short' }));
         }),
       );
 
@@ -66,7 +67,7 @@ describe('Registration form works', () => {
     test('password is too long', async () => {
       server.use(
         rest.post('/register', (req, res, ctx) => {
-          return res(ctx.status(400, 'password is too long'));
+          return res(ctx.status(200), ctx.json({ success: false, error: 'password is too long' }));
         }),
       );
 
@@ -78,7 +79,7 @@ describe('Registration form works', () => {
     test('username is too long', async () => {
       server.use(
         rest.post('/register', (req, res, ctx) => {
-          return res(ctx.status(400, 'username is too long'));
+          return res(ctx.status(200), ctx.json({ success: false, error: 'username is too long' }));
         }),
       );
 
@@ -90,7 +91,7 @@ describe('Registration form works', () => {
     test('username is taken', async () => {
       server.use(
         rest.post('/register', (req, res, ctx) => {
-          return res(ctx.status(400, 'username is taken'));
+          return res(ctx.status(200), ctx.json({ success: false, error: 'username is taken' }));
         }),
       );
 
@@ -103,8 +104,8 @@ describe('Registration form works', () => {
   describe('new user, registration succeeds', () => {
     test('server responded with 200 everything works', async () => {
       await inputData('UsernameIsGood', 'PasswordIsGood');
-      const isThere = await screen.findByPlaceholderText('hello');
-      expect(isThere).toBeInTheDocument();
+      const homeIsThere = await screen.findByText('This is homepage');
+      expect(homeIsThere).toBeInTheDocument();
     });
     //registration should succeed meaning the username is not used already..
   });
@@ -112,7 +113,15 @@ describe('Registration form works', () => {
 
 async function inputData(name, pass) {
   user.setup();
-  render(<Register />);
+  window.history.pushState({}, '', '/register');
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route path='/register' element={<Register />} />
+        <Route path='/home' element={<Home />} />
+      </Routes>
+    </BrowserRouter>,
+  );
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
   const submitButton = screen.getByRole('button', { name: /click here to register/i });

@@ -2,10 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import Login from '../../pages/login';
+import Home from '../../pages/home';
 import * as validate from '../../js/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 //backend does not interest you, only what we can control here
 //so mock what back-end sends you if there is a need
 afterEach(() => {
@@ -50,7 +51,10 @@ describe('Login form works', () => {
       test('username is too short', async () => {
         server.use(
           rest.post('/login', (req, res, ctx) => {
-            return res(ctx.status(400, 'username is too short'));
+            return res(
+              ctx.status(200),
+              ctx.json({ success: false, error: 'username is too short' }),
+            );
           }),
         );
 
@@ -62,7 +66,10 @@ describe('Login form works', () => {
       test('password is too short', async () => {
         server.use(
           rest.post('/login', (req, res, ctx) => {
-            return res(ctx.status(400, 'password is too short'));
+            return res(
+              ctx.status(200),
+              ctx.json({ success: false, error: 'password is too short' }),
+            );
           }),
         );
 
@@ -74,7 +81,10 @@ describe('Login form works', () => {
       test('username is too long', async () => {
         server.use(
           rest.post('/login', (req, res, ctx) => {
-            return res(ctx.status(400, 'username is too long'));
+            return res(
+              ctx.status(200),
+              ctx.json({ success: false, error: 'username is too long' }),
+            );
           }),
         );
 
@@ -86,7 +96,10 @@ describe('Login form works', () => {
       test('password is too long', async () => {
         server.use(
           rest.post('/login', (req, res, ctx) => {
-            return res(ctx.status(400, 'password is too long'));
+            return res(
+              ctx.status(200),
+              ctx.json({ success: false, error: 'password is too long' }),
+            );
           }),
         );
 
@@ -101,12 +114,15 @@ describe('Login form works', () => {
       test('wrong username/password combination', async () => {
         server.use(
           rest.post('/login', (req, res, ctx) => {
-            return res(ctx.status(400, 'wrong username/password combination'));
+            return res(
+              ctx.status(200),
+              ctx.json({ success: false, error: 'username/password combination is wrong' }),
+            );
           }),
         );
         await inputData('usernameIsGood', 'passwordIsGood');
         const isThere = await screen.findAllByPlaceholderText(
-          'wrong username/password combination',
+          'username/password combination is wrong',
         );
 
         expect(isThere.length).toBeGreaterThanOrEqual(1);
@@ -115,12 +131,28 @@ describe('Login form works', () => {
   });
   test('login successful', async () => {
     //
+    server.use(
+      rest.post('/login', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ success: true }));
+      }),
+    );
+    await inputData('usernameIsGood', 'passwordIsGood');
+    const isThere = await screen.findByText('This is homepage');
+    expect(isThere).toBeInTheDocument();
   });
 });
 
 async function inputData(name, pass) {
   user.setup();
-  render(<Login />);
+  window.history.pushState({}, '', '/login');
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/home' element={<Home />} />
+      </Routes>
+    </BrowserRouter>,
+  );
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
   const submitButton = screen.getByRole('button', { name: /click here to login/i });
