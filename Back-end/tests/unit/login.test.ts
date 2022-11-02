@@ -1,6 +1,7 @@
 import { loginHandler } from '../../routes/login';
 import * as databaseCheck from '../../databaseConnection';
 import * as passCheck from '../../helperFunctions/hashing';
+
 const request = {
     body: { username: 'helloThere', password: 'helloTherePass' },
 };
@@ -10,11 +11,11 @@ const response = {
     send: jest.fn(),
     status: jest.fn(),
 };
-
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+});
 describe('logging in works', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
     test('login failed passwords do not match', async () => {
         //x
         jest.spyOn(databaseCheck, 'usernameExists').mockResolvedValue({
@@ -25,9 +26,10 @@ describe('logging in works', () => {
         jest.spyOn(passCheck, 'passMatches').mockReturnValue(false);
 
         await loginHandler(request, response);
-        expect(response.status).toHaveBeenCalledWith(201);
+        expect(response.status).toHaveBeenCalledWith(200);
         expect(response.json).toHaveBeenCalledWith({
-            error: 'password does not match',
+            success: false,
+            error: 'username/password combination is wrong',
         });
     });
 
@@ -35,9 +37,10 @@ describe('logging in works', () => {
         //x
         jest.spyOn(databaseCheck, 'usernameExists').mockResolvedValue(null);
         await loginHandler(request, response);
-        expect(response.status).toHaveBeenCalledWith(201);
+        expect(response.status).toHaveBeenCalledWith(200);
         expect(response.json).toHaveBeenCalledWith({
-            error: "user doesn't exist",
+            success: false,
+            error: 'username/password combination is wrong',
         });
     });
 
@@ -51,6 +54,8 @@ describe('logging in works', () => {
         jest.spyOn(passCheck, 'passMatches').mockReturnValue(true);
         await loginHandler(request, response);
         expect(response.status).toHaveBeenCalledWith(200);
-        expect(response.send).toHaveBeenCalled;
+        expect(response.json).toHaveBeenCalledWith({
+            success: true,
+        });
     });
 });
