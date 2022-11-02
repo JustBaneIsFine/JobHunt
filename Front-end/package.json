@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Job hunting website",
   "author": "@JustBaneIsFine",
-  "proxy": "http://127.0.0.1:3000",
+  "proxy": "http://localhost:3000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
