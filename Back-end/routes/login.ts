@@ -16,16 +16,20 @@ export async function loginHandler(req, res) {
         if (passDoesMatch) {
             //login approved
             res.status(200);
-            res.send();
+            res.json({ success: true });
         } else {
-            res.status(201);
-            res.json({ error: 'password does not match' });
-            res.send();
+            res.status(200);
+            res.json({
+                success: false,
+                error: 'username/password combination is wrong',
+            });
         }
     } else if (userData === null) {
-        res.status(201);
-        res.json({ error: "user doesn't exist" });
-        res.send();
+        res.status(200);
+        res.json({
+            success: false,
+            error: 'username/password combination is wrong',
+        });
     }
 }
 

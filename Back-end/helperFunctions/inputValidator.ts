@@ -1,53 +1,63 @@
-// body('username').isLength({ min: 3 }).trim().escape(),
-// body('password').isLength({ min: 8 }).trim().escape(),
-
 export function validateInput(req, res, next) {
-    const usernameIsValid = checkUsername(req.body['username'], res);
-    const passwordIsValid = checkPassword(req.body['password'], res);
+    const name = req.body.username;
+    const pass = req.body.password;
+    const userTrimmed = name ? name.trim() : '';
+    const passTrimmed = pass ? pass.trim() : '';
 
-    if (usernameIsValid && passwordIsValid) {
+    if (
+        usernameIsValid(userTrimmed, res) &&
+        passwordIsValid(passTrimmed, res)
+    ) {
+        req.body.username = userTrimmed;
+        req.body.password = passTrimmed;
         return next();
     } else {
-        //respond with erro
+        //respond with error
         res.send();
     }
 }
 
-function checkUsername(username: string, res) {
-    const x = username.trim();
-    if (checkLengthUsername(x)) {
+function usernameIsValid(username: string, res) {
+    const userLengthValid = checkLengthUsername(username);
+    if (userLengthValid === true) {
         return true;
     } else {
-        res.json({ error: 'Username is too short' });
         res.status(401);
+        res.json(userLengthValid);
         return false;
     }
 }
-function checkPassword(password: string, res) {
-    const x = password.trim();
-    if (checkLengthPass(x)) {
+function passwordIsValid(password: string, res) {
+    const x = password ? password.trim() : '';
+    const passLengthValid = checkLengthPass(x);
+    if (passLengthValid === true) {
         return true;
     } else {
-        res.json({ error: 'Password is too short' });
         res.status(401);
+        res.json(passLengthValid);
         return false;
     }
 }
 
 function checkLengthPass(pass: string) {
-    if (pass.length >= 6) {
-        return true;
+    if (pass.length < 8) {
+        return { error: 'password is too short' };
+    } else if (pass.length > 25) {
+        return { error: 'password is too long' };
     } else {
-        return false;
+        return true;
     }
 }
 function checkLengthUsername(name: string) {
-    if (name.length >= 3) {
-        return true;
+    if (name.length < 3) {
+        return { error: 'username is too short' };
+    } else if (name.length > 20) {
+        return { error: 'username is too long' };
     } else {
-        return false;
+        return true;
     }
 }
+
 // CHECK:  do i need this
 // function decodeHtml(str) {
 //     return str

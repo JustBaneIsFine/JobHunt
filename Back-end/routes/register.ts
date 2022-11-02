@@ -14,11 +14,11 @@ export async function createUserHandler(req, res) {
 
     const handled = await handleRegister(username, password);
     if (!handled) {
-        res.status(201);
-        res.send('This username is already taken');
+        res.status(200);
+        res.json({ success: false, error: 'username is taken' });
     } else {
         res.status(200);
-        res.send('You are now registered');
+        res.json({ success: true });
     }
 }
 export default registerRouter;
