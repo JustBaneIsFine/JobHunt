@@ -66,12 +66,7 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
         .collection('comments')
         .updateOne({ name: nameOfItem }, { $set: updatedItem });
 
-    const item = await findItemByName(
-        client,
-        nameOfItem,
-        'sample_mflix',
-        'comments'
-    );
+    const item = await findItemByName(client, nameOfItem);
 
     // console.log(result.matchedCount, 'matched the query stuff');
     // console.log(result.modifiedCount, 'have been updated');
