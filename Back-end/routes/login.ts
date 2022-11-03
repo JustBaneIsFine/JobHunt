@@ -1,7 +1,6 @@
 import express from 'express';
 import { validateInput } from '../helperFunctions/inputValidator';
-import { usernameExists } from '../databaseConnection';
-import { passMatches } from '../helperFunctions/hashing';
+import { handleLogin } from '../helperFunctions/registerAndLoginHandlers';
 const loginRouter = express.Router();
 
 loginRouter.post('', validateInput, loginHandler);
@@ -9,22 +8,12 @@ loginRouter.post('', validateInput, loginHandler);
 export async function loginHandler(req, res) {
     const username = req.body['username'];
     const password = req.body['password'];
-    const userData = await usernameExists(username);
+    const handled = await handleLogin(username, password);
 
-    if (userData != null) {
-        const passDoesMatch = await passMatches(password, userData['hash']);
-        if (passDoesMatch) {
-            //login approved
-            res.status(200);
-            res.json({ success: true });
-        } else {
-            res.status(200);
-            res.json({
-                success: false,
-                error: 'username/password combination is wrong',
-            });
-        }
-    } else if (userData === null) {
+    if (handled) {
+        res.status(200);
+        res.json({ success: true });
+    } else {
         res.status(200);
         res.json({
             success: false,
