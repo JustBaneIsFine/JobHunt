@@ -12,7 +12,7 @@ export async function loginHandler(req, res) {
     const userData = await usernameExists(username);
 
     if (userData != null) {
-        const passDoesMatch = await passMatches(password, userData['password']);
+        const passDoesMatch = await passMatches(password, userData['hash']);
         if (passDoesMatch) {
             //login approved
             res.status(200);

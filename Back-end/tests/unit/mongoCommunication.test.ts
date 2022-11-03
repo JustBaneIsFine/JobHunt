@@ -6,14 +6,14 @@ import {
     findItemById,
 } from '../../databaseConnection';
 import uri from '../../uri.json';
-const databaseTest = 'testing';
-const collectionTest = 'testCollection';
+
 const client = new MongoClient(uri.data);
 
 const user = {
-    name: 'Branislav',
+    username: 'SomeName',
     age: 25,
-    nick: 'bane',
+    nick: 'NickNick',
+    hash: 'gawgawjg092t1gqagwgg3bg2jg=g1',
 };
 
 describe('tests the connection to mongo client by adding,getting and deleting an item', () => {
@@ -35,20 +35,20 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let result;
         try {
             await client.connect();
-            result = await findItemByName(client, user.name);
+            result = await findItemByName(client, user.username);
         } catch (error) {
             console.log(error);
         } finally {
             await client.close();
-            expect(result.name).toBe(user.name);
+            expect(result.username).toBe(user.username);
         }
     });
 
-    test('tries to get a nonexsistent name', async () => {
+    test('tries to get a nonexistent name', async () => {
         let result;
         try {
             await client.connect();
-            result = await findItemByName(client, 'notavailable');
+            result = await findItemByName(client, 'unavailable');
         } catch (error) {
             console.log(error);
         } finally {
@@ -62,7 +62,7 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let nameId;
         try {
             await client.connect();
-            result = await deleteItemByName(client, 'Branislav');
+            result = await deleteItemByName(client, 'SomeName');
 
             result = await findItemById(client, nameId);
         } catch (error) {

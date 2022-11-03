@@ -9,9 +9,8 @@ registerRouter.use(express.urlencoded({ extended: false }));
 registerRouter.post('', validateInput, createUserHandler);
 
 export async function createUserHandler(req, res) {
-    const username = req.body['name'];
+    const username = req.body['username'];
     const password = req.body['password'];
-
     const handled = await handleRegister(username, password);
     if (!handled) {
         res.status(200);
