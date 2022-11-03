@@ -3,12 +3,19 @@ import uri from './uri.json';
 const currentDatabase = 'testing';
 const currentCollection = 'testCollection';
 
-export async function usernameExists(username): Promise<null | object> {
+interface userObject {
+    username: string;
+    email: string;
+    age: string;
+    hash: string;
+}
+
+export async function usernameExists(username): Promise<null | userObject> {
     const result = await main(findItemByName, username);
     return result;
 }
 
-export async function createNewUser(user) {
+export async function createNewUser(user: userObject) {
     const result = await main(createItem, user);
     return result;
 }
@@ -55,7 +62,7 @@ export async function findItemByName(client, data: string) {
     const result = await client
         .db(currentDatabase)
         .collection(currentCollection)
-        .findOne({ name: data });
+        .findOne({ username: data });
 
     return result;
 }
