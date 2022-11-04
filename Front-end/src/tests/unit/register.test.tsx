@@ -104,7 +104,7 @@ describe('Registration form works', () => {
   describe('new user, registration succeeds', () => {
     test('server responded with 200 everything works', async () => {
       await inputData('UsernameIsGood', 'PasswordIsGood');
-      const homeIsThere = await screen.findByText('This is homepage');
+      const homeIsThere = await screen.findByText('This is homepage, welcome usernameIsGood');
       expect(homeIsThere).toBeInTheDocument();
     });
     //registration should succeed meaning the username is not used already..

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { json, redirect, useNavigate } from 'react-router-dom';
-import { submitLogin } from '../js/login';
-import { returnError } from '../js/returnError';
+import { useNavigate } from 'react-router-dom';
+import { submitLogin } from '../ts/login';
+import { returnError } from '../ts/returnError';
 //what other components are needed in this page
 
 const Login = () => {
@@ -47,6 +47,8 @@ const Login = () => {
     if (usernameRef.current != null && passwordRef.current != null) {
       const result = await submitLogin(usernameRef.current.value, passwordRef.current.value);
       if (result === true) {
+        // save cookies and stuff
+        // send user to a home page where his username will be displayed in the navbar
         return navigate('/home');
       } else {
         usernameRef.current.value = '';

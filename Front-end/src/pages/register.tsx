@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { submitRegister } from '../js/register';
-import { returnError } from '../js/returnError';
+import { submitRegister } from '../ts/register';
+import { returnError } from '../ts/returnError';
 const Register = () => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);

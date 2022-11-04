@@ -7,6 +7,7 @@ import * as validate from '../../js/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import * as loginHelpers from '../../js/login';
 //backend does not interest you, only what we can control here
 //so mock what back-end sends you if there is a need
 afterEach(() => {
@@ -131,13 +132,8 @@ describe('Login form works', () => {
   });
   test('login successful', async () => {
     //
-    server.use(
-      rest.post('/login', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ success: true }));
-      }),
-    );
     await inputData('usernameIsGood', 'passwordIsGood');
-    const isThere = await screen.findByText('This is homepage');
+    const isThere = await screen.findByText('This is homepage, welcome usernameIsGood');
     expect(isThere).toBeInTheDocument();
   });
 });
