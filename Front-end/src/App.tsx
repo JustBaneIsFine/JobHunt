@@ -12,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
           <Route path='/user'>
             <Route index element={<User />} />
             <Route path=':userId' element={<User />} />
