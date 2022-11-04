@@ -4,6 +4,7 @@ import * as passCheck from '../../helperFunctions/hashing';
 
 const request = {
     body: { username: 'helloThere', password: 'helloTherePass' },
+    session: { user: '' },
 };
 
 const response = {
@@ -19,11 +20,12 @@ describe('logging in works', () => {
     test('login failed passwords do not match', async () => {
         //x
         jest.spyOn(databaseCheck, 'usernameExists').mockResolvedValue({
-            userId: '2512',
-            username: 'helloThere',
-            hash: 't12g120in01',
+            username: 'Branislav',
+            email: 'x',
+            age: 'x',
+            hash: 'egomawwgma',
         });
-        jest.spyOn(passCheck, 'passMatches').mockReturnValue(false);
+        jest.spyOn(passCheck, 'passMatches').mockResolvedValue(false);
 
         await loginHandler(request, response);
         expect(response.status).toHaveBeenCalledWith(200);

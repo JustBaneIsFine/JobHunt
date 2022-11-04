@@ -1,5 +1,5 @@
-import createError from 'http-errors';
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index';
@@ -11,6 +11,7 @@ const allowedOrigins = ['http://localhost:3001'];
 
 const options: cors.CorsOptions = {
     origin: allowedOrigins,
+    credentials: true,
 };
 
 const app = express();
@@ -20,7 +21,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(
+    session({
+        key: 'userId',
+        secret: 'secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            expires: 60 * 60 * 24,
+        },
+    })
+);
 app.use('/index', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);

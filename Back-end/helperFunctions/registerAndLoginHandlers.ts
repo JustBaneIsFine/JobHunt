@@ -22,7 +22,7 @@ export async function handleLogin(username: string, password: string) {
     const userObject = await usernameExists(username);
     if (userObject != null) {
         const passCheck = await passMatches(password, userObject.hash);
-        return passCheck ? true : false;
+        return { passGood: passCheck, user: userObject };
     } else {
         return false;
     }
