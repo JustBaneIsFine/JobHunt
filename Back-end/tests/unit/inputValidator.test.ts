@@ -75,7 +75,6 @@ describe('input Validation works', () => {
             error: 'username is too short',
         });
     });
-
     test('pass and user are good ', () => {
         mockReq('UsernameIsGood', 'PasswordIsGood', request);
         validateInput(request, response, next);

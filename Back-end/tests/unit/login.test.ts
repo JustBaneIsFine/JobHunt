@@ -49,11 +49,12 @@ describe('logging in works', () => {
     test('login successful', async () => {
         //x
         jest.spyOn(databaseCheck, 'usernameExists').mockResolvedValue({
-            userId: '2512',
-            username: 'helloThere',
-            hash: 't12g120in01',
+            username: 'Branislav',
+            email: 'x',
+            age: 'x',
+            hash: 'egomawwgma',
         });
-        jest.spyOn(passCheck, 'passMatches').mockReturnValue(true);
+        jest.spyOn(passCheck, 'passMatches').mockResolvedValue(true);
         await loginHandler(request, response);
         expect(response.status).toHaveBeenCalledWith(200);
         expect(response.json).toHaveBeenCalledWith({
