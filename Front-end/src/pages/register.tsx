@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { submitRegister } from '../ts/register';
 import { returnError } from '../ts/returnError';
-const Register = () => {
+const Register = (props: { state }) => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -45,6 +45,7 @@ const Register = () => {
       const result = await submitRegister(usernameRef.current.value, passwordRef.current.value);
 
       if (result === true) {
+        props.state.checkState();
         return navigate('/home');
       } else {
         usernameRef.current.value = '';

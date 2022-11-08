@@ -33,7 +33,7 @@ function App() {
           <Route path='/categories' element={<Home />} />
           <Route path='/admin' element={<Home />} /> */}
           <Route path='/login' element={<Login state={passableState} />} />
-          <Route path='/register' element={<Register />} />
+          <Route path='/register' element={<Register state={passableState} />} />
         </Routes>
       </BrowserRouter>
     </div>

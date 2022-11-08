@@ -1,12 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import Register from '../../pages/register';
 import * as validate from '../../ts/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from '../../pages/home';
+
+import App from '../../App';
 afterEach(() => {
   jest.clearAllMocks();
   jest.restoreAllMocks();
@@ -115,12 +114,13 @@ async function inputData(name, pass) {
   user.setup();
   window.history.pushState({}, '', '/register');
   render(
-    <BrowserRouter>
-      <Routes>
-        <Route path='/register' element={<Register />} />
-        <Route path='/home' element={<Home />} />
-      </Routes>
-    </BrowserRouter>,
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path='/register' element={<Register />} />
+    //     <Route path='/home' element={<Home />} />
+    //   </Routes>
+    // </BrowserRouter>,
+    <App />,
   );
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
