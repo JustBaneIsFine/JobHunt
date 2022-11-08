@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import Register from '../../pages/register';
-import * as validate from '../../js/inputValidation';
+import * as validate from '../../ts/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';

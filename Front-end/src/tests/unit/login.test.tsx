@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import Login from '../../pages/login';
 import Home from '../../pages/home';
-import * as validate from '../../js/inputValidation';
+import * as validate from '../../ts/inputValidation';
 import { server } from '../../mocks/server';
 import { rest } from 'msw';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import * as loginHelpers from '../../js/login';
+import * as loginHelpers from '../../ts/login';
 //backend does not interest you, only what we can control here
 //so mock what back-end sends you if there is a need
 afterEach(() => {

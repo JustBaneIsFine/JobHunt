@@ -1,4 +1,4 @@
-import { validateInput } from '../../js/inputValidation';
+import { validateInput } from '../../ts/inputValidation';
 
 const errorObject = { usernameError: '', passwordError: '', error: '' };
 

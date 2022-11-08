@@ -1,5 +1,5 @@
 import { validateInput } from './inputValidation';
-import { requestLoginCheck, sendRequest } from './communication';
+import { requestLoginCheck, sendRequest, requestLogOut } from './communication';
 
 export async function submitLogin(username, password) {
   {
@@ -19,9 +19,14 @@ export async function submitLogin(username, password) {
 
 export async function checkLogin() {
   const loggedIn = await requestLoginCheck();
+
   if (loggedIn != false) {
     return loggedIn;
   } else {
     return false;
   }
+}
+
+export async function logOut() {
+  return await requestLogOut();
 }

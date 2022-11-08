@@ -4,7 +4,7 @@ import { submitLogin } from '../ts/login';
 import { returnError } from '../ts/returnError';
 //what other components are needed in this page
 
-const Login = () => {
+const Login = (props: { state }) => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -12,7 +12,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1> This is the login page</h1>
+      <h1>This is the login page</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -49,6 +49,7 @@ const Login = () => {
       if (result === true) {
         // save cookies and stuff
         // send user to a home page where his username will be displayed in the navbar
+        props.state.checkState();
         return navigate('/home');
       } else {
         usernameRef.current.value = '';

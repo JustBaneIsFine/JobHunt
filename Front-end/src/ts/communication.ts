@@ -1,3 +1,4 @@
+import { response } from 'msw';
 import { userDatabase } from './interfaces/types';
 export async function sendRequest(url: string, method: string, data: object) {
   const response = await fetch(url, {
@@ -25,15 +26,30 @@ export async function requestLoginCheck(): Promise<false | userDatabase> {
     credentials: 'include',
   });
 
-  if (response != null) {
-    const result = await response.json();
-    console.log(result, 'result from communication');
-    if (result.loggedIn === true) {
-      return result.user;
-    } else {
-      return false;
-    }
+  if (!response.ok) {
+    console.log('the error', response.statusText);
+    return false;
+  }
+
+  const result = await response.json();
+  if (result.loggedIn === true) {
+    return result.user;
   } else {
     return false;
   }
+}
+
+export async function requestLogOut(): Promise<true | false> {
+  const response = await fetch('/logout', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    console.log('the error', response.statusText);
+    return false;
+  }
+  return true;
 }

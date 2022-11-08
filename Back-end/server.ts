@@ -6,6 +6,7 @@ import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import registerRouter from './routes/register';
 import loginRouter from './routes/login';
+import logoutRouter from './routes/logout';
 import cors from 'cors';
 const allowedOrigins = ['http://localhost:3001'];
 
@@ -35,6 +36,7 @@ app.use(
 app.use('/index', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 app.get('/', (req, res) => {
     res.send('hello world AGAIN!');

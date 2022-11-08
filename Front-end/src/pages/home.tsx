@@ -1,29 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { checkLogin } from '../ts/login';
-const Home = () => {
-  const [userState, setUserState] = useState('');
 
-  useEffect(() => {
-    const result = async () => {
-      const fetchData = await checkLogin();
-      return fetchData;
-    };
-
-    result()
-      .then((x) => {
-        if (x != false) {
-          setUserState(x.username);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+const Home = (props: { state }) => {
+  // useEffect(() => {
+  //   props.state.checkState();
+  // }, []);
 
   return (
     <div>
-      <h1> This is homepage, welcome {userState}</h1>
+      <h1> This is homepage, welcome {props.state.userState.username}</h1>
       <Link to='/user'>
         <p>Click here to go to the user page</p>
       </Link>
