@@ -1,4 +1,3 @@
-import { response } from 'msw';
 import { userDatabase } from './interfaces/types';
 export async function sendRequest(url: string, method: string, data: object) {
   const response = await fetch(url, {

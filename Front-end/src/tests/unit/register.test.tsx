@@ -37,10 +37,7 @@ describe('Registration form works', () => {
     });
   });
   describe('back-end register input check', () => {
-    //-------If for some reason someone manages to pass trough the front-end checks
-    //-------And makes it to the back, we want to handle that as well..
     test('password is too short', async () => {
-      // here we expect the result of the fetch to return an error
       server.use(
         rest.post('/register', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json({ success: false, error: 'password is too short' }));
@@ -106,22 +103,13 @@ describe('Registration form works', () => {
       const homeIsThere = await screen.findByText('This is homepage, welcome usernameIsGood');
       expect(homeIsThere).toBeInTheDocument();
     });
-    //registration should succeed meaning the username is not used already..
   });
 });
 
 async function inputData(name, pass) {
   user.setup();
   window.history.pushState({}, '', '/register');
-  render(
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path='/register' element={<Register />} />
-    //     <Route path='/home' element={<Home />} />
-    //   </Routes>
-    // </BrowserRouter>,
-    <App />,
-  );
+  render(<App />);
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
   const submitButton = screen.getByRole('button', { name: /click here to register/i });
