@@ -8,8 +8,9 @@ import registerRouter from './routes/register';
 import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
 import cors from 'cors';
+import MongoStore from 'connect-mongo';
+import uri from './uri.json';
 const allowedOrigins = ['http://localhost:3001'];
-
 const options: cors.CorsOptions = {
     origin: allowedOrigins,
     credentials: true,
@@ -17,6 +18,7 @@ const options: cors.CorsOptions = {
 
 const app = express();
 const port = 3000;
+
 app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,13 +26,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
     session({
-        key: 'userId',
+        key: 'cookie id',
         secret: 'secret',
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60 * 60 * 24,
+            expires: 1000 * 60 * 60 * 24,
         },
+        store: MongoStore.create({
+            mongoUrl: uri.data,
+            dbName: 'sessions',
+            collectionName: 'sessionsTest',
+        }),
     })
 );
 app.use('/index', indexRouter);
