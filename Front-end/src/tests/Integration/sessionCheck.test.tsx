@@ -8,41 +8,35 @@ import App from '../../App';
 describe('express-sessions work', () => {
   test('session test logging in and out works', async () => {
     //server returns that we are logged out
-    server.use(
-      rest.get('/login', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({ loggedIn: false, user: { password: 'hh', username: 'usernameIsGood' } }),
-        );
-      }),
-    );
+    serverLoggedIn(false);
     await renderPage();
     const isLoginPage = screen.getByText('This is the login page');
     expect(isLoginPage).toBeInTheDocument();
     //server returns that we are logged in after the input
-    server.use(
-      rest.get('/login', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({ loggedIn: true, user: { password: 'hh', username: 'usernameIsGood' } }),
-        );
-      }),
-    );
+    serverLoggedIn(true);
     await inputData();
     const isLoggedIn = await screen.findByText('This is homepage, welcome usernameIsGood');
 
     expect(isLoggedIn).toBeInTheDocument();
     //server returns that we are logged out after we log out below
-    server.use(
-      rest.get('/login', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ loggedIn: false }));
-      }),
-    );
+    serverLoggedIn(false);
+
     await logOut();
     const loginButton = await screen.findByText('Log in');
     expect(loginButton).toBeInTheDocument();
   });
 });
+
+function serverLoggedIn(state) {
+  server.use(
+    rest.get('/login', (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({ loggedIn: state, user: { password: 'hh', username: 'usernameIsGood' } }),
+      );
+    }),
+  );
+}
 
 async function inputData() {
   const nameTest = 'Branislav1234';
