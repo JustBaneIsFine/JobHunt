@@ -9,7 +9,7 @@ export async function submitRegister(username, password) {
     const inputIsValid = validateInput(nameTrimmed, passTrimmed, errors);
     if (inputIsValid) {
       const data = { username: nameTrimmed, password: passTrimmed };
-      const result: true | { serverError: string } = await sendRequest('/register', 'post', data);
+      const result = await sendRequest('/register', 'post', data);
 
       return result;
     } else {
