@@ -5,6 +5,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/navigationBar';
+import User from './pages/user';
 import { checkAndUpdateState } from './ts/stateHandler';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home state={passableState} />} />
           <Route path='/home' element={<Home state={passableState} />} />
+          <Route path='/user' element={<User state={passableState} />} />
           {/* <Route path='/user'>
             <Route index element={<User />} />
             <Route path=':userId' element={<User />} />

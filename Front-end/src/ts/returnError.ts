@@ -1,4 +1,4 @@
-export function returnError(response, type) {
+export function returnError(response, type: 'username' | 'password') {
   const serverError = response.serverError ? response.serverError : undefined;
   const typeError = serverError === undefined ? response[`${type}Error`] : undefined;
 

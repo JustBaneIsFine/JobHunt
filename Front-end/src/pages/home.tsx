@@ -2,13 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = (props: { state }) => {
-  // useEffect(() => {
-  //   props.state.checkState();
-  // }, []);
-
   return (
     <div>
-      <h1> This is homepage, welcome {props.state.userState.username}</h1>
+      <h1> This is the homepage, welcome{props.state.userState.username}</h1>
       <Link to='/user'>
         <p>Click here to go to the user page</p>
       </Link>

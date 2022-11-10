@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const User = () => {
   return (
     <div>
-      <h1> Wlecome to the user page</h1>
+      <h1> Welcome to the jobs page</h1>
       <Link to='/'>Click here to go back to the Home page</Link>
     </div>
   );

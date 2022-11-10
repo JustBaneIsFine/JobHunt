@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { submitRegister } from '../ts/register';
+import { submitRegister } from '../ts/registerHandlers';
 import { returnError } from '../ts/returnError';
 const Register = (props: { state }) => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Register = (props: { state }) => {
     if (usernameRef.current != null && passwordRef.current != null) {
       const result = await submitRegister(usernameRef.current.value, passwordRef.current.value);
 
-      if (result === true) {
+      if (result.success === true) {
         props.state.checkState();
         return navigate('/home');
       } else {

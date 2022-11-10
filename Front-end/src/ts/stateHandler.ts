@@ -1,4 +1,4 @@
-import { checkLogin } from './login';
+import { checkLogin } from './loginHandlers';
 export async function checkAndUpdateState(setState) {
   const result = await checkLogin();
   if (result != false) {

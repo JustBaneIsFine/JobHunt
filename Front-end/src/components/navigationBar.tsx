@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { logOut } from '../ts/login';
+import { logOut } from '../ts/loginHandlers';
 
 const NavigationBar = (props: { state }) => {
   const logInButton = <Link to='/login'>Log in</Link>;
