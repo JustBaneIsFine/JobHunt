@@ -132,7 +132,7 @@ describe('Login form works', () => {
   test('login successful', async () => {
     //
     await inputData('usernameIsGood', 'passwordIsGood');
-    const isThere = await screen.findByText('This is homepage, welcome usernameIsGood');
+    const isThere = await screen.findByText(/usernameIsGood/i);
     expect(isThere).toBeInTheDocument();
   });
 });

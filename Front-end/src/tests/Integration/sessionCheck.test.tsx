@@ -15,7 +15,7 @@ describe('express-sessions work', () => {
     //server returns that we are logged in after the input
     serverLoggedIn(true);
     await inputData();
-    const isLoggedIn = await screen.findByText('This is homepage, welcome usernameIsGood');
+    const isLoggedIn = await screen.findByText(/usernameIsGood/i);
 
     expect(isLoggedIn).toBeInTheDocument();
     //server returns that we are logged out after we log out below

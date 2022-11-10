@@ -100,7 +100,7 @@ describe('Registration form works', () => {
   describe('new user, registration succeeds', () => {
     test('server responded with 200 everything works', async () => {
       await inputData('UsernameIsGood', 'PasswordIsGood');
-      const homeIsThere = await screen.findByText('This is homepage, welcome usernameIsGood');
+      const homeIsThere = await screen.findByText(/usernameIsGood/i);
       expect(homeIsThere).toBeInTheDocument();
     });
   });
