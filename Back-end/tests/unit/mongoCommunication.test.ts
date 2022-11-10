@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import {
     createItem,
-    deleteItemByName,
+    deleteUserByName,
     findItemByName,
     findItemById,
 } from '../../databaseConnection';
@@ -62,7 +62,7 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let nameId;
         try {
             await client.connect();
-            result = await deleteItemByName(client, 'SomeName');
+            result = await deleteUserByName('SomeName');
 
             result = await findItemById(client, nameId);
         } catch (error) {
