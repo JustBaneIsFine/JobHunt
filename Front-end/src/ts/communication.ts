@@ -10,7 +10,7 @@ export async function sendRequest(url: string, method: string, data: object) {
   });
   const responseData = await response.json();
   if (responseData.success === true) {
-    return true;
+    return responseData;
   } else {
     return { serverError: responseData.error };
   }
@@ -41,6 +41,21 @@ export async function requestLoginCheck(): Promise<false | userDatabase> {
 export async function requestLogOut(): Promise<true | false> {
   const response = await fetch('/logout', {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    console.log('the error', response.statusText);
+    return false;
+  }
+  return true;
+}
+
+export async function requestUserDeletion(): Promise<true | false> {
+  const response = await fetch('/deleteUser', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
