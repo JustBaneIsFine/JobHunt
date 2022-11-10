@@ -10,6 +10,8 @@ import logoutRouter from './routes/logout';
 import cors from 'cors';
 import MongoStore from 'connect-mongo';
 import uri from './uri.json';
+import deleteUserRouter from './routes/deleteUser';
+
 const allowedOrigins = ['http://localhost:3001'];
 const options: cors.CorsOptions = {
     origin: allowedOrigins,
@@ -44,13 +46,10 @@ app.use('/index', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/deleteUser', deleteUserRouter);
 
 app.get('/', (req, res) => {
     res.send('hello world AGAIN!');
-});
-
-app.get('/intro', (req, res) => {
-    res.send('that works my dude!');
 });
 
 app.listen(port, () => {

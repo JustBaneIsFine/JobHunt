@@ -20,6 +20,11 @@ export async function createNewUser(user: userObject) {
     return result;
 }
 
+export async function deleteUserByName(user) {
+    const result = await main(deleteByName, user);
+    return result;
+}
+
 export async function main(funcToRun, data) {
     const client = new MongoClient(uri.data);
     try {
@@ -79,9 +84,8 @@ async function updateItemByName(client, nameOfItem, updatedItem) {
     // console.log(result.modifiedCount, 'have been updated');
 }
 
-export async function deleteItemByName(client, data) {
+export async function deleteByName(client, data) {
     const itemId = await findItemByName(client, data);
-
     await client
         .db(currentDatabase)
         .collection(currentCollection)
