@@ -9,26 +9,22 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.2",
+    "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
-    "web-vitals": "^3.0.0"
+    "web-vitals": "^3.0.4"
   },
   "scripts": {
-    "tsc-format": "tsc && npm run format",
-    "lint": "eslint --fix --ext .js,.ts .",
-    "format": "prettier --write \"**/*.+(js|ts|json)\"",
-    "lint-pretty": "npm run lint && npm run format",
-    "lpt": "npm run-s -c lint-pretty tsc-format",
-    "tr-unit": "react-scripts test ./src/tests/unit",
-    "tr-int": "react-scripts test ./src/tests/integration",
-    "tr-all": "react-scripts test ./src/tests",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "cypress-gui": "npx cypress open",
+    "cypress-test": "npx cypress run",
+    "start-test-servers-only": "concurrently \"npm start\" \"cd ../ && cd Back-End && npm start\"",
+    "start-test-cypress-gui": "concurrently \"npm start \" \"npm run cypress-gui\" \"cd ../ && cd Back-End && npm start\""
   },
   "eslintConfig": {
     "extends": [
@@ -49,20 +45,22 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^29.1.2",
-    "@types/react": "^18.0.21",
+    "@types/jest": "^29.2.2",
+    "@types/react": "^18.0.25",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.40.0",
-    "@typescript-eslint/parser": "^5.40.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "concurrently": "^7.5.0",
+    "cypress": "^11.0.1",
     "depcheck": "^1.4.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "msw": "^0.47.4",
+    "msw": "^0.48.1",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   }

@@ -20,5 +20,5 @@
     "types": ["jest", "node"],
     "outDir": "src/out"
   },
-  "include": ["./src/*"]
+  "include": ["./src/*", "**/*.test.tsx"]
 }
