@@ -3,6 +3,7 @@ import * as registerHelper from '../../helperFunctions/registerAndLoginHandlers'
 
 const request = {
     body: { username: 'testUsername', password: 'testPassword' },
+    session: { user: jest.fn() },
 };
 
 const response = {
@@ -30,13 +31,22 @@ describe('registering works', () => {
         });
         test('you are registered', async () => {
             // jest.spyOn(registerHelper, 'checkInput').mockReturnValue(true);
-            jest.spyOn(registerHelper, 'handleRegister').mockResolvedValue(
-                true
-            );
+            jest.spyOn(registerHelper, 'handleRegister').mockResolvedValue({
+                username: 'hello',
+                email: 'hi',
+                hash: 'hihi2',
+                age: '22',
+            });
             await createUserHandler(request, response);
             expect(response.status).toHaveBeenCalledWith(200);
             expect(response.json).toHaveBeenCalledWith({
                 success: true,
+            });
+            expect(request.session.user).toEqual({
+                username: 'hello',
+                email: 'hi',
+                hash: 'hihi2',
+                age: '22',
             });
         });
     });
