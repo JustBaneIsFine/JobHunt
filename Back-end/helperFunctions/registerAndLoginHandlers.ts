@@ -1,7 +1,17 @@
 import { usernameExists, createNewUser } from '../databaseConnection';
 import { generateHash, passMatches } from './hashing';
 
-export async function handleRegister(username: string, password: string) {
+export interface userObject {
+    age: string;
+    email: string;
+    hash: string;
+    username: string;
+}
+
+export async function handleRegister(
+    username: string,
+    password: string
+): Promise<false | userObject> {
     let newHash: string;
     if (await usernameExists(username)) {
         return false;
@@ -14,10 +24,14 @@ export async function handleRegister(username: string, password: string) {
             hash: newHash,
         };
         await createNewUser(newUser);
-        return true;
+        const userObject = await usernameExists(username);
+        if (userObject != null) {
+            return userObject;
+        } else {
+            return false;
+        }
     }
 }
-
 export async function handleLogin(username: string, password: string) {
     const userObject = await usernameExists(username);
     if (userObject != null) {
