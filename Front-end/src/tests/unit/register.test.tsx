@@ -14,23 +14,24 @@ afterEach(() => {
 describe('Registration form works', () => {
   describe('front-end register input check', () => {
     test('password is too short', async () => {
-      await inputData('usernameIsGood', 'pasBad');
+      await inputData('usernameIsGood', 'x@x.x', 'pasBad');
       expect(screen.getByPlaceholderText('password is too short')).toBeInTheDocument();
     });
 
     test('password is too long', async () => {
-      await inputData('usernameIsGood', 'passwordIsWaaaaaaaaaaaaayTooooooooLooooooooong');
+      await inputData('usernameIsGood', 'x@x.x', 'passwordIsWaaaaaaaaaaaaayTooooooooLooooooooong');
       expect(screen.getByPlaceholderText('password is too long')).toBeInTheDocument();
     });
 
     test('username is too short', async () => {
-      await inputData('hi', 'PasswordIsPrettyGood');
+      await inputData('hi', 'x@x.x', 'PasswordIsPrettyGood');
       expect(screen.getByPlaceholderText('username is too short')).toBeInTheDocument();
     });
 
     test('username is too long', async () => {
       await inputData(
         'Hi,MyNameIsWHO,MyNameIsWhat,MyNameIsChka-ChkaSlimShady',
+        'x@x.x',
         'PasswordIsPrettyGood',
       );
       expect(screen.getByPlaceholderText('username is too long')).toBeInTheDocument();
@@ -44,7 +45,7 @@ describe('Registration form works', () => {
         }),
       );
       jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-      await inputData('testUsernameWorks', 'pass');
+      await inputData('testUsernameWorks', 'x@x.x', 'pass');
       const isThere = await screen.findByPlaceholderText('password is too short');
       expect(isThere).toBeInTheDocument();
     });
@@ -56,7 +57,7 @@ describe('Registration form works', () => {
       );
 
       jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-      await inputData('hi', 'passisGoood');
+      await inputData('hi', 'x@x.x', 'passisGoood');
       const isThere = await screen.findByPlaceholderText('username is too short');
       expect(isThere).toBeInTheDocument();
     });
@@ -68,7 +69,11 @@ describe('Registration form works', () => {
       );
 
       jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-      await inputData('UsernameGood', 'passwordIsWaaaaaaaaaaaaaaayTooooooooooLooooooooong');
+      await inputData(
+        'UsernameGood',
+        'x@x.x',
+        'passwordIsWaaaaaaaaaaaaaaayTooooooooooLooooooooong',
+      );
       const isThere = await screen.findByPlaceholderText('password is too long');
       expect(isThere).toBeInTheDocument();
     });
@@ -80,7 +85,11 @@ describe('Registration form works', () => {
       );
 
       jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-      await inputData('UsernameIsWaaaaaaaaaaaaaaaaaayTooooooooooLooooooooong', 'passIsGoodTho');
+      await inputData(
+        'UsernameIsWaaaaaaaaaaaaaaaaaayTooooooooooLooooooooong',
+        'x@x.x',
+        'passIsGoodTho',
+      );
       const isThere = await screen.findByPlaceholderText('username is too long');
       expect(isThere).toBeInTheDocument();
     });
@@ -91,7 +100,7 @@ describe('Registration form works', () => {
         }),
       );
 
-      await inputData('busyName', 'passCantBeBusyCanIt');
+      await inputData('busyName', 'x@x.x', 'passCantBeBusyCanIt');
       const isThere = await screen.findByPlaceholderText('username is taken');
       expect(isThere).toBeInTheDocument();
     });
@@ -99,22 +108,25 @@ describe('Registration form works', () => {
 
   describe('new user, registration succeeds', () => {
     test('server responded with 200 everything works', async () => {
-      await inputData('UsernameIsGood', 'PasswordIsGood');
+      await inputData('UsernameIsGood', 'x@x.x', 'PasswordIsGood');
       const homeIsThere = await screen.findByText(/usernameIsGood/i);
       expect(homeIsThere).toBeInTheDocument();
     });
   });
 });
 
-async function inputData(name, pass) {
+async function inputData(name, email, pass) {
   user.setup();
   window.history.pushState({}, '', '/register');
   render(<App />);
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
+  const inputEmail = screen.getByTestId('inputEmail');
   const submitButton = screen.getByRole('button', { name: /click here to register/i });
   await user.click(inputName);
   await user.paste(name);
+  await user.click(inputEmail);
+  await user.paste(email);
   await user.click(inputPass);
   await user.paste(pass);
   await user.click(submitButton);

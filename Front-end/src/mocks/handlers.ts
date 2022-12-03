@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-
+import categoriesEx from '../components/categoriesEx.json';
 export const handlers = [
   rest.post('/register', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json({ success: true }));
@@ -18,5 +18,8 @@ export const handlers = [
       ctx.status(200),
       ctx.json({ loggedIn: false, user: { username: 'unknown', password: 'unknown' } }),
     );
+  }),
+  rest.get('/categories', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ success: true, categories: categoriesEx.categories }));
   }),
 ];

@@ -40,14 +40,18 @@ function serverLoggedIn(state) {
 
 async function inputData() {
   const nameTest = 'Branislav1234';
+  const emailTest = 'x@x.x';
   const passTest = 'Branislav1234';
 
   user.setup();
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
+  const inputEmail = screen.getByTestId('inputEmail');
   const submitButton = screen.getByRole('button', { name: /click here to login/i });
   await user.click(inputName);
   await user.paste(nameTest);
+  await user.click(inputEmail);
+  await user.paste(emailTest);
   await user.click(inputPass);
   await user.paste(passTest);
   await user.click(submitButton);

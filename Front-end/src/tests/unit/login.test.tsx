@@ -17,7 +17,7 @@ describe('Login form works', () => {
   describe('front-end login input checks', () => {
     //
     test('password is too short', async () => {
-      await inputData('usernameIsGood', '0000');
+      await inputData('usernameIsGood', 'x@x.x', '0000');
       const isThere = await screen.findByPlaceholderText('password is too short');
       expect(isThere).toBeInTheDocument();
     });
@@ -25,6 +25,7 @@ describe('Login form works', () => {
     test('password is too long', async () => {
       await inputData(
         'usernameIsGood',
+        'x@x.x',
         '11111111111111111111111111111111111111111111111111111111111',
       );
       const isThere = await screen.findByPlaceholderText('password is too long');
@@ -32,7 +33,7 @@ describe('Login form works', () => {
     });
 
     test('username is too short', async () => {
-      await inputData('xx', 'PasswordIsGood');
+      await inputData('xx', 'x@x.x', 'PasswordIsGood');
       const isThere = await screen.findByPlaceholderText('username is too short');
       expect(isThere).toBeInTheDocument();
     });
@@ -40,6 +41,7 @@ describe('Login form works', () => {
     test('username is too long', async () => {
       await inputData(
         'usernameIsWayTooLong11111111111111111111111111111111111111111111',
+        'x@x.x',
         'passIsGood',
       );
       const isThere = await screen.findByPlaceholderText('username is too long');
@@ -59,7 +61,7 @@ describe('Login form works', () => {
         );
 
         jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-        await inputData('sh', 'passwordIsGood');
+        await inputData('sh', 'x@x.x', 'passwordIsGood');
         const isThere = await screen.findByPlaceholderText('username is too short');
         expect(isThere).toBeInTheDocument();
       });
@@ -74,7 +76,7 @@ describe('Login form works', () => {
         );
 
         jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-        await inputData('usernameIsGood', '0000');
+        await inputData('usernameIsGood', 'x@x.x', '0000');
         const isThere = await screen.findByPlaceholderText('password is too short');
         expect(isThere).toBeInTheDocument();
       });
@@ -89,7 +91,7 @@ describe('Login form works', () => {
         );
 
         jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-        await inputData('usernameIsWayTooLong11111111111111111111111111111111', '0000');
+        await inputData('usernameIsWayTooLong11111111111111111111111111111111', 'x@x.x', '0000');
         const isThere = await screen.findByPlaceholderText('username is too long');
         expect(isThere).toBeInTheDocument();
       });
@@ -104,7 +106,11 @@ describe('Login form works', () => {
         );
 
         jest.spyOn(validate, 'validateInput').mockReturnValue(true);
-        await inputData('usernameIsGood', 'passwordIsWayTooLong111111111111111111111111111');
+        await inputData(
+          'usernameIsGood',
+          'x@x.x',
+          'passwordIsWayTooLong111111111111111111111111111',
+        );
         const isThere = await screen.findByPlaceholderText('password is too long');
         expect(isThere).toBeInTheDocument();
       });
@@ -120,7 +126,7 @@ describe('Login form works', () => {
             );
           }),
         );
-        await inputData('usernameIsGood', 'passwordIsGood');
+        await inputData('usernameIsGood', 'x@x.x', 'passwordIsGood');
         const isThere = await screen.findAllByPlaceholderText(
           'username/password combination is wrong',
         );
@@ -131,13 +137,13 @@ describe('Login form works', () => {
   });
   test('login successful', async () => {
     //
-    await inputData('usernameIsGood', 'passwordIsGood');
+    await inputData('usernameIsGood', 'x@x.x', 'passwordIsGood');
     const isThere = await screen.findByText(/usernameIsGood/i);
     expect(isThere).toBeInTheDocument();
   });
 });
 
-async function inputData(name, pass) {
+async function inputData(name, email, pass) {
   user.setup();
   window.history.pushState({}, '', '/login');
   render(
@@ -151,9 +157,12 @@ async function inputData(name, pass) {
   );
   const inputName = screen.getByTestId('inputUser');
   const inputPass = screen.getByTestId('inputPass');
+  const inputEmail = screen.getByTestId('inputEmail');
   const submitButton = screen.getByRole('button', { name: /click here to login/i });
   await user.click(inputName);
   await user.paste(name);
+  await user.click(inputEmail);
+  await user.paste(email);
   await user.click(inputPass);
   await user.paste(pass);
   await user.click(submitButton);
