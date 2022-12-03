@@ -6,7 +6,7 @@ const User = (props: { state }) => {
     <div>
       <h1> Welcome to the user page</h1>
       <Link to='/'>Click here to go back to the Home page</Link>
-      <Link to='/home' onClick={deleteUser}>
+      <Link to='/' onClick={deleteUser}>
         Delete user: {props.state.userState.username}
       </Link>
     </div>
