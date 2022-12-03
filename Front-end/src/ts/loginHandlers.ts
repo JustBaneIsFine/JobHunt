@@ -1,14 +1,15 @@
 import { validateInput } from './inputValidation';
 import { requestLoginCheck, sendRequest, requestLogOut } from './communication';
 
-export async function submitLogin(username, password) {
+export async function submitLogin(username, email, password) {
   {
-    const errors = { usernameError: '', passwordError: '' };
+    const errors = { usernameError: '', emailError: '', passwordError: '' };
     const nameTrimmed = username.trim();
+    const emailTrimmed = email.trim();
     const passTrimmed = password.trim();
-    const inputIsValid = validateInput(nameTrimmed, passTrimmed, errors);
+    const inputIsValid = validateInput(nameTrimmed, emailTrimmed, passTrimmed, errors);
     if (inputIsValid) {
-      const data = { username: nameTrimmed, password: passTrimmed };
+      const data = { username: nameTrimmed, email: emailTrimmed, password: passTrimmed };
       const result = await sendRequest('/login', 'post', data);
       return result;
     } else {

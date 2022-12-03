@@ -1,6 +1,14 @@
-export function validateInput(name, pass, errorObject) {
+import { validationErrorObject } from './interfaces/validation';
+
+export function validateInput(
+  name: string,
+  email: string,
+  pass: string,
+  errorObject: validationErrorObject,
+) {
   const nameResult = checkLengthUsername(name);
   const passResult = checkLengthPass(pass);
+  const emailResult = checkEmail(email);
   let valid = true;
   if (nameResult != true) {
     errorObject.usernameError = nameResult.error;
@@ -8,6 +16,10 @@ export function validateInput(name, pass, errorObject) {
   }
   if (passResult != true) {
     errorObject.passwordError = passResult.error;
+    valid = false;
+  }
+  if (emailResult != true) {
+    errorObject.emailError = emailResult.error;
     valid = false;
   }
 
@@ -31,4 +43,9 @@ function checkLengthUsername(name: string) {
   } else {
     return true;
   }
+}
+
+function checkEmail(email: string) {
+  const emailKindaLooksGood = email.match(/^\S+@\S+\.\S+$/);
+  return emailKindaLooksGood != null ? true : { error: 'wrong email format' };
 }

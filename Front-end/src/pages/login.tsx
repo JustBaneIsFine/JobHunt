@@ -8,7 +8,8 @@ const Login = (props: { state }) => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
-  const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [errors, setErrors] = useState({ usernameError: '', passwordError: '', emailError: '' });
 
   return (
     <div>
@@ -29,6 +30,15 @@ const Login = (props: { state }) => {
           />
         </div>
         <div>
+          <label> Enter your email here</label>
+          <input
+            data-testid='inputEmail'
+            type='text'
+            ref={emailRef}
+            placeholder={errors.emailError}
+          />
+        </div>
+        <div>
           <label> Enter your password here</label>
           <input
             data-testid='inputPass'
@@ -44,18 +54,24 @@ const Login = (props: { state }) => {
   );
 
   async function submitCheck() {
-    if (usernameRef.current != null && passwordRef.current != null) {
-      const loginResult = await submitLogin(usernameRef.current.value, passwordRef.current.value);
+    if (usernameRef.current != null && passwordRef.current != null && emailRef.current != null) {
+      const loginResult = await submitLogin(
+        usernameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value,
+      );
       if (loginResult.success === true) {
         props.state.checkState();
-        return navigate('/home');
+        return navigate('/');
       } else {
         usernameRef.current.value = '';
         passwordRef.current.value = '';
+        emailRef.current.value = '';
 
         setErrors({
           usernameError: returnError(loginResult, 'username'),
           passwordError: returnError(loginResult, 'password'),
+          emailError: returnError(loginResult, 'email'),
         });
       }
     }
