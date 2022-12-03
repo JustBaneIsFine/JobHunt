@@ -1,6 +1,9 @@
 import express from 'express';
 import session from 'express-session';
-import { deleteUserByName, usernameExists } from '../databaseConnection';
+import {
+    deleteByUsername,
+    usernameExists,
+} from '../helperFunctions/mongoComm/users';
 const deleteUserRouter = express.Router();
 
 deleteUserRouter.post('', deleteUser);
@@ -9,7 +12,7 @@ async function deleteUser(req, res) {
     console.log('reqSession', req.session); //WHY IS THIS NULL??
     const idName = req.session.user.username;
     console.log(idName);
-    const resultDel = await deleteUserByName(idName);
+    const resultDel = await deleteByUsername(idName);
     const resultFind = await usernameExists(idName);
     console.log('User deleted', resultDel);
     console.log('User Found', resultFind);

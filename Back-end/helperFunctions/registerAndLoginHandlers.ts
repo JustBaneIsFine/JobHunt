@@ -1,15 +1,11 @@
-import { usernameExists, createNewUser } from '../databaseConnection';
+import { usernameExists, createNewUser } from './mongoComm/users';
 import { generateHash, passMatches } from './hashing';
-
-export interface userObject {
-    age: string;
-    email: string;
-    hash: string;
-    username: string;
-}
+import { userObject } from '../interfaces/userInterface';
+import { createDefaultUserObject } from './userFunctions/defaultUserCreation';
 
 export async function handleRegister(
     username: string,
+    email: string,
     password: string
 ): Promise<false | userObject> {
     let newHash: string;
@@ -17,12 +13,8 @@ export async function handleRegister(
         return false;
     } else {
         newHash = await generateHash(password);
-        const newUser = {
-            username: username,
-            email: 'test',
-            age: 'test55',
-            hash: newHash,
-        };
+        const newUser = createDefaultUserObject(username, email, newHash);
+
         await createNewUser(newUser);
         const userObject = await usernameExists(username);
         if (userObject != null) {
@@ -32,7 +24,11 @@ export async function handleRegister(
         }
     }
 }
-export async function handleLogin(username: string, password: string) {
+export async function handleLogin(
+    username: string,
+    email: string,
+    password: string
+) {
     const userObject = await usernameExists(username);
     if (userObject != null) {
         const passCheck = await passMatches(password, userObject.hash);
