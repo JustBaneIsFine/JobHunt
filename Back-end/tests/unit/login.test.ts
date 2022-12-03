@@ -1,5 +1,5 @@
 import { loginHandler } from '../../routes/login';
-import * as databaseCheck from '../../databaseConnection';
+import * as databaseCheck from '../../helperFunctions/mongoComm/users';
 import * as passCheck from '../../helperFunctions/hashing';
 
 const request = {

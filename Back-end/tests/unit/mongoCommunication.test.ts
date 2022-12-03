@@ -1,28 +1,27 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import {
-    createItem,
-    deleteUserByName,
-    findItemByName,
-    findItemById,
-} from '../../databaseConnection';
+    deleteByUsername,
+    usernameExists,
+    createNewUser,
+} from '../../helperFunctions/mongoComm/users';
+import { findUserById } from '../../helperFunctions/mongoComm/general';
 import uri from '../../uri.json';
+import { createDefaultUserObject } from '../../helperFunctions/userFunctions/defaultUserCreation';
 
 const client = new MongoClient(uri.data);
 
-const user = {
-    username: 'SomeName',
-    age: 25,
-    nick: 'NickNick',
-    hash: 'gawgawjg092t1gqagwgg3bg2jg=g1',
-};
-
+const user = createDefaultUserObject(
+    'John',
+    'johndoe@gmail.com',
+    'johnDoesPassword'
+);
 describe('tests the connection to mongo client by adding,getting and deleting an item', () => {
     //
     test('adds name to database and confirms', async () => {
         let result;
         try {
             await client.connect();
-            result = await createItem(client, user);
+            result = await createNewUser(user);
         } catch (error) {
             console.log(error);
         } finally {
@@ -35,7 +34,7 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let result;
         try {
             await client.connect();
-            result = await findItemByName(client, user.username);
+            result = await usernameExists(user.username);
         } catch (error) {
             console.log(error);
         } finally {
@@ -48,7 +47,7 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let result;
         try {
             await client.connect();
-            result = await findItemByName(client, 'unavailable');
+            result = await usernameExists('unavailable');
         } catch (error) {
             console.log(error);
         } finally {
@@ -62,9 +61,11 @@ describe('tests the connection to mongo client by adding,getting and deleting an
         let nameId;
         try {
             await client.connect();
-            result = await deleteUserByName('SomeName');
-
-            result = await findItemById(client, nameId);
+            const userObject = await usernameExists(user.username);
+            const nameIdObject = userObject._id;
+            nameId = nameIdObject.toString();
+            await deleteByUsername(user.username);
+            result = await findUserById(nameId);
         } catch (error) {
             console.log(error);
         } finally {
