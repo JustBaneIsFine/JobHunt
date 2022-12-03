@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-const Home = (props: { state }) => {
+import Categories from '../components/categories';
+const Home = (props: { state; categoryState }) => {
   return (
     <div>
       <h1> This is the homepage, welcome{props.state.userState.username}</h1>
@@ -14,6 +14,10 @@ const Home = (props: { state }) => {
       <Link to='/register'>
         <p>Click here to go to the register page</p>
       </Link>
+
+      <aside>
+        <Categories categoryState={props.categoryState} />
+      </aside>
     </div>
   );
 };
