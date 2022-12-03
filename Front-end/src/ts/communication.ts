@@ -1,5 +1,5 @@
 import { userDatabase } from './interfaces/types';
-export async function sendRequest(url: string, method: string, data: object) {
+export async function sendRequest(url: string, method: string, data?: object) {
   const response = await fetch(url, {
     method: method,
     headers: {

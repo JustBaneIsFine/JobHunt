@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import { logOut } from '../ts/loginHandlers';
 
 const NavigationBar = (props: { state }) => {
-  const logInButton = <Link to='/login'>Log in</Link>;
+  const logInButton = (
+    <Link id='logIn' to='/login'>
+      Log in
+    </Link>
+  );
   const logOutButton = (
     <Link
-      to='/home'
+      id='logOut'
+      to='/'
       onClick={async () => {
         await logOut();
         await props.state.checkState();
@@ -16,7 +21,7 @@ const NavigationBar = (props: { state }) => {
     </Link>
   );
   const registerButton = <Link to='/register'>Register</Link>;
-  const homeLink = <Link to='/home'>Home</Link>;
+  const homeLink = <Link to='/'>Home</Link>;
 
   return (
     <div>
