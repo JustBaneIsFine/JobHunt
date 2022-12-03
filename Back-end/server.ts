@@ -11,7 +11,7 @@ import cors from 'cors';
 import MongoStore from 'connect-mongo';
 import uri from './uri.json';
 import deleteUserRouter from './routes/deleteUser';
-
+import categoriesRouter from './routes/categories';
 const allowedOrigins = ['http://localhost:3001'];
 const options: cors.CorsOptions = {
     origin: allowedOrigins,
@@ -47,6 +47,7 @@ app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/deleteUser', deleteUserRouter);
+app.use('/categories', categoriesRouter);
 
 app.get('/', (req, res) => {
     res.send('hello world AGAIN!');
