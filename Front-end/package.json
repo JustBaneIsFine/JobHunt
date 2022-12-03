@@ -9,12 +9,12 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/react-dom": "^18.0.8",
+    "@types/react-dom": "^18.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
+    "react-router-dom": "^6.4.4",
     "react-scripts": "^5.0.1",
-    "web-vitals": "^3.0.4"
+    "web-vitals": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "test": "react-scripts test",
     "cypress-gui": "npx cypress open",
-    "cypress-test": "npx cypress run",
+    "cypress-test": "concurrently \"npx cypress run\"  \"npm run start-test-servers-only\"",
     "start-test-servers-only": "concurrently \"npm start\" \"cd ../ && cd Back-End && npm start\"",
     "start-test-cypress-gui": "concurrently \"npm start \" \"npm run cypress-gui\" \"cd ../ && cd Back-End && npm start\""
   },
@@ -45,23 +45,23 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^29.2.2",
-    "@types/react": "^18.0.25",
+    "@types/jest": "^29.2.3",
+    "@types/react": "^18.0.26",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
-    "concurrently": "^7.5.0",
-    "cypress": "^11.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "concurrently": "^7.6.0",
+    "cypress": "^11.2.0",
     "depcheck": "^1.4.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "msw": "^0.48.1",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.4"
+    "msw": "^0.49.1",
+    "prettier": "^2.8.0",
+    "typescript": "^4.9.3"
   }
 }
