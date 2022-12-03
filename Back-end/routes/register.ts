@@ -10,8 +10,8 @@ registerRouter.post('', validateInput, createUserHandler);
 export async function createUserHandler(req, res) {
     const username = req.body['username'];
     const password = req.body['password'];
-
-    const handled = await handleRegister(username, password);
+    const email = req.body['email'];
+    const handled = await handleRegister(username, email, password);
     if (handled != false) {
         req.session.user = handled;
         res.status(200);

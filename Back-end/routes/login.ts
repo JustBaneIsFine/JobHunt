@@ -7,7 +7,8 @@ loginRouter.post('', validateInput, loginHandler);
 export async function loginHandler(req, res) {
     const username = req.body['username'];
     const password = req.body['password'];
-    const handled = await handleLogin(username, password);
+    const email = req.body['email'];
+    const handled = await handleLogin(username, email, password);
 
     if (handled != false) {
         if (handled.passGood === true) {
