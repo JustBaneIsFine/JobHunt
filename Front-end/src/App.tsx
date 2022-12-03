@@ -6,7 +6,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import NavigationBar from './components/navigationBar';
 import User from './pages/user';
-import { checkAndUpdateState } from './ts/stateHandler';
+import { checkAndUpdateState, checkAndUpdateCategoriesState } from './ts/stateHandler';
 
 function App() {
   const [userState, setUserState] = useState({ loggedIn: false, username: '' });
@@ -17,9 +17,14 @@ function App() {
       checkAndUpdateState(setUserState);
     },
   };
-
+  const [categoriesState, setCategoriesState] = useState<string | object[]>('loading');
   useEffect(() => {
-    checkAndUpdateState(setUserState);
+    async function updateStates() {
+      await checkAndUpdateState(setUserState);
+      await checkAndUpdateCategoriesState(setCategoriesState);
+    }
+
+    updateStates();
   }, []);
 
   return (
@@ -27,8 +32,10 @@ function App() {
       <BrowserRouter>
         <NavigationBar state={passableState} />
         <Routes>
-          <Route path='/' element={<Home state={passableState} />} />
-          <Route path='/home' element={<Home state={passableState} />} />
+          <Route
+            path='/'
+            element={<Home state={passableState} categoryState={categoriesState} />}
+          />
           <Route path='/user' element={<User state={passableState} />} />
           {/* <Route path='/user'>
             <Route index element={<User />} />
