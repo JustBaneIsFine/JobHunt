@@ -1,0 +1,190 @@
+{
+  "categories": [
+    {
+      "name": "Administracija/Biznis/Menadzment",
+      "subCategory": [
+        {
+          "name": "Administrativni poslovi",
+          "subCategory": []
+        },
+        {
+          "name": "Knjigovodstvo",
+          "subCategory": []
+        },
+        {
+          "name": "Menadzment",
+          "subCategory": []
+        },
+        {
+          "name": "Finansije",
+          "subCategory": []
+        },
+        {
+          "name": "Marketing i reklamiranje",
+          "subCategory": []
+        },
+        {
+          "name": "Racunovodstvo",
+          "subCategory": []
+        },
+        {
+          "name": "Ostalo",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": "IT/Dizajn/Umetnost",
+      "subCategory": [
+        {
+          "name": "IT-informacione tehnologije",
+          "subCategory": []
+        },
+        {
+          "name": "Dizajn/mediji",
+          "subCategory": [
+            {
+              "name": "Pisanje/prevodjenje",
+              "subCategory": []
+            },
+            {
+              "name": "Foto i video",
+              "subCategory": []
+            },
+            {
+              "name": "Ostalo",
+              "subCategory": []
+            }
+          ]
+        },
+        {
+          "name": "Telekomunikacije",
+          "subCategory": [
+            {
+              "name": "Operater",
+              "subCategory": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gradjevinarstvo/Zanati/Transport",
+      "subCategory": [
+        {
+          "name": "Gradjevinarstvo i zanati",
+          "subCategory": [
+            {
+              "name": "Zanati",
+              "subCategory": []
+            },
+            {
+              "name": "Usluge i ostalo",
+              "subCategory": []
+            }
+          ]
+        },
+        {
+          "name": "Transport i logistika",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": "Zdravstvena nega / medicina",
+      "subCategory": [
+        {
+          "name": "Lepota",
+          "subCategory": []
+        },
+        {
+          "name": "Farmacija",
+          "subCategory": []
+        },
+        {
+          "name": "Medicina i zdravstvo",
+          "subCategory": []
+        },
+        {
+          "name": "Pedagogija i briga o deci",
+          "subCategory": []
+        },
+        {
+          "name": "Sport i rekreacija",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": "Proizvodnja i maloprodaja",
+      "subCategory": [
+        {
+          "name": "Poljoprivreda/sumarstvo",
+          "subCategory": []
+        },
+        {
+          "name": "Proizvodnja",
+          "subCategory": []
+        },
+        {
+          "name": "Prodaja i trgovina",
+          "subCategory": []
+        },
+        {
+          "name": "Ostalo",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": "Ugostiteljstvo/turizam",
+      "subCategory": [
+        {
+          "name": "Obezbedjenje",
+          "subCategory": []
+        },
+        {
+          "name": "Konobarstvo/recepcija",
+          "subCategory": []
+        },
+        {
+          "name": "Promocije",
+          "subCategory": []
+        },
+        {
+          "name": "Kulinarstvo",
+          "subCategory": []
+        },
+        {
+          "name": "Ostalo",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": " Edukacija/sociologija/nauke",
+      "subCategory": [
+        {
+          "name": "Poducavanje",
+          "subCategory": []
+        },
+        {
+          "name": "Lingvistika/prevodilacke usluge",
+          "subCategory": []
+        },
+        {
+          "name": "Obrazovanje",
+          "subCategory": []
+        },
+        {
+          "name": "Ostalo",
+          "subCategory": []
+        }
+      ]
+    },
+    {
+      "name": "Ostalo",
+      "subCategory": []
+    }
+  ]
+}
