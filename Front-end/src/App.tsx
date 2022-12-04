@@ -7,7 +7,7 @@ import Register from './pages/register';
 import NavigationBar from './components/navigationBar';
 import User from './pages/user';
 import { checkAndUpdateState, checkAndUpdateCategoriesState } from './ts/stateHandler';
-
+import CreateJob from './pages/createJob';
 function App() {
   const [userState, setUserState] = useState({ loggedIn: false, username: '' });
   const passableState = {
@@ -18,6 +18,9 @@ function App() {
     },
   };
   const [categoriesState, setCategoriesState] = useState<string | object[]>('loading');
+  const [currentCategoryTag, setCurrentCategoryTag] = useState<string>('all');
+  const [searchTags, setSearchTags] = useState<string[]>(['']);
+
   useEffect(() => {
     async function updateStates() {
       await checkAndUpdateState(setUserState);
@@ -45,6 +48,7 @@ function App() {
           <Route path='/jobs' element={<Home />} />
           <Route path='/categories' element={<Home />} />
           <Route path='/admin' element={<Home />} /> */}
+          <Route path='/createJob' element={<CreateJob state={'x'} />} />
           <Route path='/login' element={<Login state={passableState} />} />
           <Route path='/register' element={<Register state={passableState} />} />
         </Routes>

@@ -14,7 +14,9 @@ const Home = (props: { state; categoryState }) => {
       <Link to='/register'>
         <p>Click here to go to the register page</p>
       </Link>
-
+      <Link to='/createJob'>
+        <p>Click here to go to the job creation page</p>
+      </Link>
       <aside>
         <Categories categoryState={props.categoryState} />
       </aside>
