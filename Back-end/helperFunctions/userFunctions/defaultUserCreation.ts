@@ -1,15 +1,15 @@
-import { userObject } from '../../interfaces/userInterface';
+import { userInterface } from '../../interfaces/userInterface';
 import date from 'date-and-time';
 
 export function createDefaultUserObject(
     username: string,
     email: string,
     hash: string
-): userObject {
+): userInterface {
     const now = new Date();
     const newDate = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 
-    const user = {} as userObject;
+    const user = {} as userInterface;
 
     // setting default values
     user.level = 0;

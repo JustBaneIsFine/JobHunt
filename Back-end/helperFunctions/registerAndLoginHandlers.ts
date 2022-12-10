@@ -1,13 +1,13 @@
 import { usernameExists, createNewUser } from './mongoComm/users';
 import { generateHash, passMatches } from './hashing';
-import { userObject } from '../interfaces/userInterface';
+import { userInterface } from '../interfaces/userInterface';
 import { createDefaultUserObject } from './userFunctions/defaultUserCreation';
 
 export async function handleRegister(
     username: string,
     email: string,
     password: string
-): Promise<false | userObject> {
+): Promise<false | userInterface> {
     let newHash: string;
     if (await usernameExists(username)) {
         return false;

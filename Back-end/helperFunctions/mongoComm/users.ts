@@ -1,5 +1,5 @@
 import { mainComm } from './general';
-import { userObject } from '../../interfaces/userInterface';
+import { userInterface } from '../../interfaces/userInterface';
 const userDatabase = 'testing';
 const userCollection = 'testCollection';
 
@@ -12,7 +12,7 @@ export async function usernameExists(username) {
 export async function updateByUsername() {
     return await mainComm(updateByUsernameFunc);
 }
-export async function createNewUser(userObject: userObject) {
+export async function createNewUser(userObject: userInterface) {
     return await mainComm(createUserFunc, userObject);
 }
 
