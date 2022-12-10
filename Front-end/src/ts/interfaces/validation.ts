@@ -5,13 +5,17 @@ export interface validationErrorObject {
 }
 
 export interface jobInputErrorInterface {
-  nameError: string | false;
-  posterError: string | false;
-  descriptionError: string | false;
-  priceError: string | false;
-  requiredWorkersError: string | false;
-  jobTagsError: { mainTagError: string | false; otherTagsError: string | false };
-  locationError: string | false;
-  companyNameError: string | false;
-  jobDueDateError: string | false;
+  jobName: string | true;
+  jobDescription: string | true;
+  jobPrice: string | true;
+  requiredWorkers: string | true;
+  jobTagsMain: string | true;
+  jobTagsOther?: string | true;
+  location: string | true;
+  companyName?: string | true;
+  jobDueDate: string | true;
+}
+
+export interface jobInputErrorWithResult extends jobInputErrorInterface {
+  result: boolean;
 }

@@ -1,10 +1,11 @@
 export interface jobInputValues {
-  jobName: string;
-  jobDescription: string;
-  jobPrice: string;
-  requiredWorkers: string;
-  jobTags: { mainTag: string; otherTags?: string[] };
-  location: string | string[];
+  jobName: string | undefined;
+  jobDescription: string | undefined;
+  jobPrice: string | undefined;
+  requiredWorkers: string | undefined;
+  jobTagsMain: string | undefined;
+  jobTagsOther?: string | undefined;
+  location: string | string[] | undefined;
   companyName?: string | undefined;
   jobDueDate?: string | undefined;
 }

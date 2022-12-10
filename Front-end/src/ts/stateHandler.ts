@@ -1,5 +1,9 @@
 import { checkLogin } from './loginHandlers';
 import { fetchCategories } from '../ts/categories';
+import { fetchTags } from '../ts/dataFetching/jobTags';
+import { fetchLocations } from '../ts/dataFetching/locations';
+
+// main state handlers
 export async function checkAndUpdateState(setState) {
   const result = await checkLogin();
   if (result != false) {
@@ -22,4 +26,22 @@ export async function checkAndUpdateCategoriesState(setState) {
   } else {
     setState('error');
   }
+}
+
+export async function updateJobTags(updateState) {
+  const x = await fetchTags();
+  if (x !== false) {
+    updateState(x);
+    return;
+  }
+  updateState('error');
+}
+
+export async function updateLocations(updateState) {
+  const x = await fetchLocations();
+  if (x !== false) {
+    updateState(x);
+    return;
+  }
+  updateState('error');
 }
