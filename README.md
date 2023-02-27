@@ -1,2 +1,5 @@
 # JobHunt
-Fullstack website (work in progress)
+This is a personal fullstack-project, an idea that will come alive at some point.
+
+More information about it, comming soon.
+
